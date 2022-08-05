@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+  # Database customers
+  postgres-customers:
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata-customers:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=boski
+      - POSTGRES_PASSWORD=boskipw
+      - POSTGRES_DB=customers
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U boski -d customers'" ]
+      interval: 5s
+      timeout: 1s
+      retries: 2
+  # Database fraud
+  postgres-fraud:
+    image: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata-fraud:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=boski
+      - POSTGRES_PASSWORD=boskipw
+      - POSTGRES_DB=fraud
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U boski -d fraud'" ]
+      interval: 5s
+      timeout: 1s
+      retries: 2
+volumes:
+  pgdata-customers:
+  pgdata-fraud:
