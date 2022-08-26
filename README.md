@@ -1,4 +1,4 @@
-# Customer managment system back-end using microservices & docker
+# Customer management system back-end using microservices & docker
 
 ## Prerequisites 
 
