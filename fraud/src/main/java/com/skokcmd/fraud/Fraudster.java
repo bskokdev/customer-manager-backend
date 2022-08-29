@@ -18,7 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Data
-public class Fraud {
+public class Fraudster {
 
   @Id
   @GeneratedValue(generator = "UUID")

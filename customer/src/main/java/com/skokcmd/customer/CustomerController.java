@@ -20,6 +20,7 @@ public class CustomerController {
 
   private final CustomerService customerService;
 
+  // POST - registers a new customer; see CustomerRegistrationRequest class
   @PostMapping
   public CustomerRegistrationResponse registerCustomer(
       @RequestBody CustomerRegistrationRequest newCustomerReq) {
@@ -39,12 +40,13 @@ public class CustomerController {
         ResponseStatus.FAILED, "Cannot create a new customer - Fraudster or an invalid email!");
   }
 
-  // might remove later
+  // GET all customers
   @GetMapping
   public List<Customer> getCustomers() {
     return this.customerService.findCustomers();
   }
 
+  // GET customer by id
   @GetMapping(path = "/{customerId}")
   public GetCustomerResponse getCustomerById(@PathVariable UUID customerId) {
     Customer foundCustomer = this.customerService.findCustomerById(customerId);

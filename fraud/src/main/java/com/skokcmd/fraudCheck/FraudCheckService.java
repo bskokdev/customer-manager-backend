@@ -1,26 +1,22 @@
 package com.skokcmd.fraudCheck;
 
-import com.skokcmd.fraud.Fraud;
-import com.skokcmd.fraud.FraudRepository;
+import com.skokcmd.fraud.FraudstersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class FraudCheckService {
   private final FraudCheckHistoryRepository fraudCheckHistoryRepository;
-  private final FraudRepository fraudRepository;
+  private final FraudstersService fraudstersService;
 
-  // sees if customer's email is in the fraudsters list
-  public boolean isCustomerFraudster(String customerEmail) {
-    boolean isFraudster =
-        fraudRepository.findAll().stream()
-            .map(Fraud::getCustomerEmail)
-            .collect(Collectors.toList())
-            .contains(customerEmail);
+  // sees if customer's email is in the fraudsters list & records the check
+  public boolean isCustomerFraudsterAndMakeRecord(String customerEmail) {
+
+    boolean isFraudster = fraudstersService.isFraudster(customerEmail);
+
     // creates fraud check
     FraudCheckHistory fraudCheck =
         FraudCheckHistory.builder()
