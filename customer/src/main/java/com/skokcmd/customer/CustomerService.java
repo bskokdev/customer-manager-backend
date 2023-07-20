@@ -1,11 +1,10 @@
 package com.skokcmd.customer;
 
 import com.skokcmd.domain.request.CustomerRegistrationRequest;
+import java.util.*;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -13,7 +12,7 @@ public class CustomerService {
   private final CustomerRepository customerRepository;
   private final CustomerValidationService validationService;
 
-  // if customer is creatable and valid he's registered
+  // if customer is creatable and valid, he's registered
   public Map<Customer, Boolean> registerCustomer(CustomerRegistrationRequest req) {
     Customer newCustomer =
         Customer.builder()
@@ -21,6 +20,7 @@ public class CustomerService {
             .lastName(req.lastName())
             .email(req.email())
             .build();
+
     boolean isCreatable = false;
     boolean isValidCustomer = validationService.isCustomerValid(newCustomer.getEmail());
     if (isValidCustomer) {
@@ -33,7 +33,9 @@ public class CustomerService {
         throw new RuntimeException(e);
       }
     }
-    if (isValidCustomer && isCreatable) customerRepository.save(newCustomer);
+    if (isValidCustomer && isCreatable) {
+      customerRepository.save(newCustomer);
+    }
     return Collections.singletonMap(newCustomer, isCreatable);
   }
 
@@ -45,6 +47,6 @@ public class CustomerService {
   // finds customer by id
   public Customer findCustomerById(UUID id) {
     Optional<Customer> customerRes = customerRepository.findById(id);
-    return customerRes.get();
+    return customerRes.orElseGet(customerRes::get);
   }
 }

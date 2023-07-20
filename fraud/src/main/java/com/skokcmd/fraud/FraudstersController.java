@@ -15,7 +15,7 @@ public class FraudstersController {
 
   private final FraudstersService fraudstersService;
 
-  // POST - marks email as fraudster's email -> customer account can't be created
+  // marks email as a fraudster email -> a customer account can't be created
   @PostMapping
   public GenericResponse markAsFraudster(@RequestParam String userEmail) {
     fraudstersService.markAsFraudster(userEmail);

@@ -2,7 +2,9 @@ package com.skokcmd.domain.response;
 
 import com.skokcmd.customer.Customer;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class GetCustomerResponse extends GenericResponse {
 

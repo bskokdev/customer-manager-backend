@@ -6,15 +6,13 @@ import org.json.JSONException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 public class CustomerValidationService {
 
   private static final String FRAUD_CHECK_SERVICE_URL = "http://localhost:8082/api/v1/fraud-check/";
-  private final CustomerRepository customerRepository;
 
+  private final CustomerRepository customerRepository;
   private final RestTemplate restTemplate;
 
   /**
@@ -34,23 +32,20 @@ public class CustomerValidationService {
    * @return whether the email is taken
    */
   public boolean isEmailTaken(String email) {
-    return customerRepository.findAll().stream()
-        .map(Customer::getEmail)
-        .collect(Collectors.toList())
-        .contains(email);
+    return customerRepository.findAll().stream().map(Customer::getEmail).toList().contains(email);
   }
 
   /**
    * Checks if the customer is a fraudster or not
    *
    * @param customerEmail customer's email
-   * @return whether customer is a fraudster
+   * @return whether a customer is a fraudster
    */
   public boolean isFraudster(String customerEmail) throws JSONException {
     FraudCheckResponse res =
         restTemplate.getForObject(
             FRAUD_CHECK_SERVICE_URL + "{customerEmail}", FraudCheckResponse.class, customerEmail);
-    return res.isFraudster();
+    return res != null && res.isFraudster();
   }
 
   /**
