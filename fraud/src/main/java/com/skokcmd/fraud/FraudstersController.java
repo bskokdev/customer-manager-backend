@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class FraudstersController {
 
-  private final FraudstersService fraudstersService;
+  private final FraudsterService fraudstersService;
 
   // marks email as a fraudster email -> a customer account can't be created
   @PostMapping

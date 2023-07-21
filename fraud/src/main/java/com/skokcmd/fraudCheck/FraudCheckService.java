@@ -1,6 +1,6 @@
 package com.skokcmd.fraudCheck;
 
-import com.skokcmd.fraud.FraudstersService;
+import com.skokcmd.fraud.FraudsterService;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class FraudCheckService {
 
   private final FraudCheckHistoryRepository fraudCheckHistoryRepository;
-  private final FraudstersService fraudstersService;
+  private final FraudsterService fraudstersService;
 
   // sees if customer's email is in the fraudsters' list & records the check
   public boolean isCustomerFraudsterAndMakeRecord(String customerEmail) {
