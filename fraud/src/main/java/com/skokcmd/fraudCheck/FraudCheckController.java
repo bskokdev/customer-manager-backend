@@ -13,7 +13,6 @@ public class FraudCheckController {
 
   private final FraudCheckService fraudCheckService;
 
-  // check if email is a fraudster
   @GetMapping(path = "/{customerEmail}")
   public FraudCheckResponse isFraudster(@PathVariable String customerEmail) {
     return new FraudCheckResponse(

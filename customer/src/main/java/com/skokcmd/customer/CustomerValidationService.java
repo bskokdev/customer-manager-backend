@@ -6,10 +6,14 @@ import org.json.JSONException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Service for customer validation-related operations such as email validation & fraudster checks
+ */
 @Service
 @RequiredArgsConstructor
 public class CustomerValidationService {
 
+  // TODO: move the endpoint to the application.yaml file
   private static final String FRAUD_CHECK_SERVICE_URL = "http://localhost:8082/api/v1/fraud-check/";
 
   private final CustomerRepository customerRepository;

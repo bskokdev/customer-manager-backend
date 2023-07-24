@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.springframework.stereotype.Service;
 
+/** Service for customer-related operations such as registration, finding customers, etc. */
 @Service
 @RequiredArgsConstructor
 public class CustomerService {

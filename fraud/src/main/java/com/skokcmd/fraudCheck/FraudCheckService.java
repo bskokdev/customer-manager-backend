@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/** Service for fraud checks */
 @Service
 @RequiredArgsConstructor
 public class FraudCheckService {
@@ -12,7 +13,12 @@ public class FraudCheckService {
   private final FraudCheckHistoryRepository fraudCheckHistoryRepository;
   private final FraudsterService fraudstersService;
 
-  // sees if customer's email is in the fraudsters' list & records the check
+  /**
+   * Looks up the customer in the fraudster database and creates a record of the check
+   *
+   * @param customerEmail customer's email
+   * @return whether the customer is a fraudster
+   */
   public boolean isCustomerFraudsterAndMakeRecord(String customerEmail) {
     boolean isFraudster = fraudstersService.isFraudster(customerEmail);
 
