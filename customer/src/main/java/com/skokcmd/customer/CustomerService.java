@@ -13,8 +13,13 @@ public class CustomerService {
   private final CustomerRepository customerRepository;
   private final CustomerValidationService validationService;
 
-  // if customer is creatable and valid, he's registered
-  public Map<Customer, Boolean> registerCustomer(CustomerRegistrationRequest req) {
+  /**
+   * Registers a new customer if the customer is not a fraudster and the email is valid
+   *
+   * @param req customer registration request
+   * @return the newly created customer or null if the customer is a fraudster or email is invalid
+   */
+  public Customer registerCustomer(CustomerRegistrationRequest req) {
     Customer newCustomer =
         Customer.builder()
             .firstName(req.firstName())
@@ -22,22 +27,24 @@ public class CustomerService {
             .email(req.email())
             .build();
 
-    boolean isCreatable = false;
-    boolean isValidCustomer = validationService.isCustomerValid(newCustomer.getEmail());
+    if (canRegisterCustomer(newCustomer)) {
+      return customerRepository.save(newCustomer);
+    }
+    return null;
+  }
+
+  private boolean canRegisterCustomer(Customer customer) {
+    boolean isValidCustomer = validationService.isCustomerValid(customer.getEmail());
     if (isValidCustomer) {
-      isCreatable = true;
       try {
-        if (validationService.isFraudster(newCustomer.getEmail())) {
-          isCreatable = false;
+        if (validationService.isFraudster(customer.getEmail())) {
+          return false;
         }
       } catch (JSONException e) {
         throw new RuntimeException(e);
       }
     }
-    if (isValidCustomer && isCreatable) {
-      customerRepository.save(newCustomer);
-    }
-    return Collections.singletonMap(newCustomer, isCreatable);
+    return isValidCustomer;
   }
 
   // finds and returns all customers
